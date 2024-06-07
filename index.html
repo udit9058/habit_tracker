@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Habit Tracker</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+
+    <nav class="navbar navbar-expand-sm navbar-light bg-light">
+        <a class="navbar-brand" href="index.html">Home</a>
+        <button class="navbar-toggler d-lg-none" type="button" data-toggle="collapse" data-target="#collapsibleNavId" aria-controls="collapsibleNavId"
+            aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="collapsibleNavId">
+            <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
+                <li class="nav-item">
+                    <a href="php/view_completed_habits.php" class="btn btn-secondary">View Completed Habits</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+<!-- Nav tabs -->
+<ul class="nav nav-tabs" id="navId">
+    <li class="nav-item">
+        
+    </li>
+    <li class="nav-item">
+        
+    </li>
+</ul>
+
+<!-- Tab panes -->
+<div class="tab-content">
+    <div class="tab-pane fade show active" id="tab1Id" role="tabpanel"></div>
+    <div class="tab-pane fade" id="tab2Id" role="tabpanel"></div>
+    <div class="tab-pane fade" id="tab3Id" role="tabpanel"></div>
+    <div class="tab-pane fade" id="tab4Id" role="tabpanel"></div>
+    <div class="tab-pane fade" id="tab5Id" role="tabpanel"></div>
+</div>
+
+<script>
+    $('#navId a').click(e => {
+        e.preventDefault();
+        $(this).tab('show');
+    });
+</script>
+    <nav class="mb-3">
+        
+        
+    </nav>
+
+
+    <div class="container">
+        <h1 class="mt-5">Habit Tracker</h1>
+        
+            <!-- Form to add daily completion report -->
+        <form id="completion-form" class="mb-3" action="php/add_completion_report.php" method="POST">
+            <div class="form-group">
+                <label for="habit_name">Habit:</label>
+                <select class="form-control" id="habit_name" name="habit_name" required>
+                    <option value="">Select Habit</option>
+                    <!-- Options will be populated by JavaScript -->
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="time_limit">Time Limit:</label>
+                <input type="time" class="form-control" id="time_limit" name="time_limit" readonly>
+            </div>
+            <div class="form-group">
+                <label for="from_time">From:</label>
+                <input type="time" class="form-control" id="from_time" name="from_time" readonly>
+            </div>
+            <div class="form-group">
+                <label for="to_time">To:</label>
+                <input type="time" class="form-control" id="to_time" name="to_time" readonly>
+            </div>
+            <div class="form-group">
+                <label for="completion_date">Completion Date:</label>
+                <input type="date" class="form-control" id="completion_date" name="completion_date" required>
+            </div>
+            <div class="form-group">
+                <label>Daily Report:</label><br>
+                <input type="checkbox" id="daily_report" name="daily_report" value="completed"> Completed
+            </div>
+            <button type="submit" class="btn btn-primary">Add Completion Report</button>
+        </form>
+
+        <div id="habit-list">
+            <!-- Habits will be displayed here -->
+        </div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script src="js/scripts.js"></script>
+    <script>
+        $(document).ready(function() {
+            loadHabits();
+
+            // Restrict past dates
+            $('#completion_date').attr('min', new Date().toISOString().split('T')[0]);
+
+            $('#habit_name').on('change', function() {
+                const habitId = $(this).val();
+                if (habitId) {
+                    $.get('php/get_habit_details.php', { id: habitId }, function(data) {
+                        const habit = JSON.parse(data);
+                        $('#time_limit').val(habit.time_limit);
+                        $('#from_time').val(habit.from_time);
+                        $('#to_time').val(habit.to_time);
+                    });
+                } else {
+                    $('#time_limit').val('');
+                    $('#from_time').val('');
+                    $('#to_time').val('');
+                }
+            });
+
+            function loadHabits() {
+                $.get('php/get_habits_list.php', function(data) {
+                    $('#habit_name').html(data);
+                });
+            }
+        });
+    </script>
+</body>
+</html>

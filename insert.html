@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Habit Tracker</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+    <div class="container">
+        <h1 class="mt-5">Habit Tracker</h1>
+        <form id="habit-form" class="mb-3">
+            <div class="form-group">
+                <label for="habit_name">Habit:</label>
+                <input type="text" class="form-control" id="habit_name" required>
+            </div>
+            <div class="form-group">
+                <label for="time_limit">Time Limit:</label>
+                <input type="time" class="form-control" id="time_limit" required>
+            </div>
+            <div class="form-group">
+                <label for="from_time">From:</label>
+                <input type="time" class="form-control" id="from_time" name="from_time" required>
+            </div>
+            <div class="form-group">
+                <label for="to_time">To:</label>
+                <input type="time" class="form-control" id="to_time" name="to_time" required>
+            </div>
+            <div class="form-group">
+                <label for="activity_date">Activity Date:</label>
+                <input type="date" class="form-control" id="activity_date" required>
+            </div>
+            <button type="submit" class="btn btn-primary">Add Habit</button>
+        </form>
+        <div id="habit-list">
+            <!-- Habits will be displayed here -->
+        </div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script src="js/scripts.js"></script>
+</body>
+</html>
